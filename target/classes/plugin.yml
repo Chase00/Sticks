@@ -1,0 +1,7 @@
+name: Stick
+version: 1.0-SNAPSHOT
+main: cheesystuffs.stick.Stick
+api-version: 1.13
+authors: [Cheesy_]
+description: Sticks do stuff
+website: http://play.mc-le.com/

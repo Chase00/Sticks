@@ -1,0 +1,7 @@
+name: Stick
+version: ${project.version}
+main: cheesystuffs.stick.Stick
+api-version: 1.13
+authors: [Cheesy_]
+description: Sticks do stuff
+website: http://play.mc-le.com/
