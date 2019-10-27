@@ -1,5 +1,6 @@
 package cheesystuffs.stick;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -9,28 +10,30 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public final class Stick extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
         // Plugin startup logic
-        System.out.println(ChatColor.YELLOW + "Stick plugin enabled.");
-        getServer().getPluginManager().registerEvents( this,this);
+        System.out.println("Stick plugin enabled.");
+        getServer().getPluginManager().registerEvents(this, this);
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        System.out.println(ChatColor.YELLOW + "Stick plugin disabled.");
+        System.out.println("Stick plugin disabled.");
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(command.getName().equals("stick")){
+        if (command.getName().equals("stick")) {
             onDisable();
             onEnable();
             Player player = (Player) sender;
@@ -42,14 +45,24 @@ public final class Stick extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onPlayerItemHeld(PlayerItemHeldEvent e) {
-        Player p = e.getPlayer();
-        int i = e.getNewSlot();
-        ItemStack item = e.getPlayer().getInventory().getItem(i); //this get the item in the selected slot (i)
-        if (item != null && item.getItemMeta().getLore() != null) { //check if there is an item and if the item has a lore
-            if (item.getType() == Material.STICK) {
-                PotionEffect luck = new PotionEffect(PotionEffectType.LUCK, 200, 1, false);
-                p.addPotionEffect(luck);
+
+        int timer = Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            @Override
+            public void run() {
+
+                Player p = e.getPlayer();
+
+                ItemStack item = e.getPlayer().getInventory().getItemInMainHand(); // Get item in player's hand
+                if (item.getItemMeta().getLore() != null) { // Check if there's an item and if it has a lore
+
+                    if (item.getType() == Material.STICK) { // Checks for stick
+
+                        PotionEffect effect = new PotionEffect(PotionEffectType.GLOWING, 200, 1, true);
+                        p.addPotionEffect(effect);
+
+                    }
+                }
             }
-        }
+        }, 0, 20);
     }
 }

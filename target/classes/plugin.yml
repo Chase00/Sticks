@@ -5,3 +5,7 @@ api-version: 1.13
 authors: [Cheesy_]
 description: Sticks do stuff
 website: http://play.mc-le.com/
+commands:
+  stick:
+    description: Reloads the stick plugin.
+    usage: </Stick>
